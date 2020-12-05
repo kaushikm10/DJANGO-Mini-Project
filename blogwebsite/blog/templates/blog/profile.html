@@ -1,0 +1,150 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block css_files %}
+
+<style>
+
+body {
+    background-color: whitesmoke;
+    border-radius: 10px
+}
+
+.card {
+    width: 80%;
+    border: none;
+    border-radius: 10px;
+    background-color: #fff
+}
+
+.stats {
+    background: #f2f5f8 !important;
+    color: #000 !important
+}
+
+.articles {
+    font-size: 20px;
+    color: #a1aab9
+}
+
+.number1 {
+    font-weight: 500
+}
+
+.followers {
+    font-size: 20px;
+    color: #a1aab9
+}
+
+.number2 {
+    font-weight: 500
+}
+
+#id_about{
+    width: 80%;
+    margin-left: 10%;
+}
+
+label{
+    margin-left: 40%;
+    color: white;
+    font-size: xx-large;
+    font-family: cursive;
+}
+
+#id_profile_pic{
+    margin-left: 40%;
+    width: 30%;
+    color: white;
+}
+
+.forms{
+    border-radius: 2%;
+    box-shadow: 4px 4px 4px 4xp rgba(255,255,255,0.6);
+}
+
+</style>
+
+{% endblock css_files %}
+
+{% block content %}
+
+<div style="margin-top: 10%; margin-bottom: 10%;">
+
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="image"> <img src="{{ blogger.profile_pic.url }}" class="rounded" width="155"> </div>
+                <div class="ml-3 w-100">
+                    <h4 class="mb-0 mt-0">{{ user.username }}</h4> 
+                    <p style="width: 100%; height: auto;">{{ blogger.about }}</p>
+                    <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                        <div class="d-flex flex-column"> <span class="articles">Blogs</span> <span class="number1">{{ count_post }}</span> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='buttons' style="margin-left: 40%; padding: 2%;">
+        <button type='button' onclick="showupdate()" class="btn btn-dark">Update Profile</button>
+
+    </div>
+
+    <div class="posts" style="width: 100%; margin-top: 3%; margin-left: 10%;">
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-header">
+                  Posted On: {{ post.posted_on }}
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <a href="{% url 'full_post' post.pk %}" style="text-decoration: none;"><p>{{ post.title }}</p></a>
+                    <footer class="blockquote-footer">By:  <cite title="Source Title">{{ post.blogger.user.username }}</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+        </div>
+</div>
+<div class='forms' style="position: absolute; top: 10%; left:20%; background-color: rgba(0,0,0,0.6); width: 60%; visibility: hidden;" id="update_form">
+    <form method="POST" enctype="multipart/form-data" id="profile_update">
+        {% csrf_token %}
+        {{ p_form|crispy }}
+        <input type="hidden" value="1" name="updateprofile">
+        <button type="submit" style="margin-left:40%;" class="btn btn-dark">Update Profile Pic</button>
+    </form>
+
+    <form method="POST" id="about_update">
+        {% csrf_token %}
+        {{ u_form|crispy }}
+        <input type="hidden" value="2" name="updateprofile">
+        <button type="submit" style="margin-left:40%;" class="btn btn-dark">Update About</button>
+    </form>
+
+    <button type="button" onclick="showupdate()" style="margin-left: 45%; margin-top: 1.3%; margin-bottom: 1%;" class="btn btn-dark">Cancel</button>
+</div>
+
+<script>
+
+    function showupdate(){
+        if (document.getElementById('update_form').style.visibility == 'hidden'){
+            document.getElementById('update_form').style.visibility = 'visible';
+        }
+        else{
+            document.getElementById('update_form').style.visibility = 'hidden';
+        }
+    }
+
+
+</script>
+
+{% endblock content %}
+
+<!--
+
+-->

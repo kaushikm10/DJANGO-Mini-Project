@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<a href="{% url 'add_post' %}" style="float: right;"><button type="button" class="btn btn-dark">ADD POST</button></a><br>
+<div class="posts" style="width: 70%;">
+{% for post in posts %}
+    <div class="card">
+        <div class="card-header">
+          Posted On: {{ post.posted_on }}  
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <a href="{% url 'full_post' post.pk %}" style="text-decoration: none;"><p>{{ post.title }}</p></a>
+            <footer class="blockquote-footer">By:  <cite title="Source Title">{{ post.blogger.user.username }}</cite></footer>
+          </blockquote>
+        </div>
+    </div>
+    <br>
+{% endfor %}
+</div>
+
+<div class="pagination" style="margin-bottom: 3%; margin-left: 25%;">
+  <span class="step-links">
+      {% if posts.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ posts.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+      </span>
+
+      {% if posts.has_next %}
+          <a href="?page={{ posts.next_page_number }}">next</a>
+          <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+
+{% endblock content %}

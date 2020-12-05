@@ -1,0 +1,117 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block css_files %}
+
+<style>
+
+body {
+    background-color: whitesmoke;
+    border-radius: 10px
+}
+
+.card {
+    width: 80%;
+    border: none;
+    border-radius: 10px;
+    background-color: #fff
+}
+
+.stats {
+    background: #f2f5f8 !important;
+    color: #000 !important
+}
+
+.articles {
+    font-size: 20px;
+    color: #a1aab9
+}
+
+.number1 {
+    font-weight: 500
+}
+
+.followers {
+    font-size: 20px;
+    color: #a1aab9
+}
+
+.number2 {
+    font-weight: 500
+}
+
+#id_about{
+    width: 80%;
+    margin-left: 10%;
+}
+
+label{
+    margin-left: 40%;
+    color: white;
+    font-size: xx-large;
+    font-family: cursive;
+}
+
+#id_profile_pic{
+    margin-left: 40%;
+    width: 30%;
+    color: white;
+}
+
+.forms{
+    border-radius: 2%;
+    box-shadow: 4px 4px 4px 4xp rgba(255,255,255,0.6);
+}
+
+</style>
+
+{% endblock css_files %}
+
+{% block content %}
+
+<div style="margin-top: 10%; margin-bottom: 10%;">
+
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="image"> <img src="{{ blogger.profile_pic.url }}" class="rounded" width="155"> </div>
+                <div class="ml-3 w-100">
+                    <h4 class="mb-0 mt-0">{{ blogger.user.username }}</h4> 
+                    <p style="width: 100%; height: auto;">{{ blogger.about }}</p>
+                    <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                        <div class="d-flex flex-column"> <span class="articles">Blogs</span> <span class="number1">{{ count_post }}</span> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="posts" style="width: 100%; margin-top: 3%; margin-left: 10%;">
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-header">
+                  Posted On: {{ post.posted_on }}
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <a href="{% url 'full_post' post.pk %}" style="text-decoration: none;"><p>{{ post.title }}</p></a>
+                    <footer class="blockquote-footer">By:  <cite title="Source Title">{{ post.blogger.user.username }}</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+        </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+<!--
+
+-->

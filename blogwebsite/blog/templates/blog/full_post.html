@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block css_files %}
+
+<style>
+    img{
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+{% endblock css_files %}
+{% block content %}
+
+<div>
+
+    <blockquote class="blockquote text-center">
+        <p style="font-size: xx-large; font-family: cursive;" class="mb-0">{{ post.title }}</p>
+        <footer class="blockquote-footer">By <cite title="Source Title">{{ user.username }} on {{ post.posted_on }}</cite></footer>
+    </blockquote>
+    <div class="post_body" style="width: 80%; margin-left: 10%;">
+        {{ post.post|safe }}
+    </div>
+
+</div>
+
+{% endblock content %}
