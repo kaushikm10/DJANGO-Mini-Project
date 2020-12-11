@@ -22,16 +22,3 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('full_post', args=(str(self.id)))
-
-
-class Comments(models.Model):
-    comment_by = models.ForeignKey(Blogger, on_delete=models.CASCADE)
-    comment = models.TextField(max_length=1000)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    comment_date = models.DateTimeField(default=datetime.datetime.now())
-    
-
-
-class Followers(models.Model):
-    follower = models.ForeignKey(Blogger, on_delete=models.CASCADE, related_name='follower', default=None)
-    blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE, related_name='blogger', default=None)
